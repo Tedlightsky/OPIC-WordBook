@@ -422,14 +422,39 @@ function showGlossary() {
 function closeGlossary() { document.getElementById('glossary-screen').style.display = 'none'; }
 
 function speak(text) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang = 'en-US'; msg.rate = 0.85;
-    window.speechSynthesis.speak(msg);
+  if (!('speechSynthesis' in window)) return;
+  
+  // 이전 음성 중단
+  window.speechSynthesis.cancel();
+
+  const msg = new SpeechSynthesisUtterance(text);
+  
+  // 아이폰(iOS)에서 지원하는 음성 목록 가져오기
+  let voices = window.speechSynthesis.getVoices();
+  
+  // 가장 자연스러운 음성 후보군 순서대로 찾기
+  // 1순위: Siri 음성, 2순위: Samantha(Enhanced), 3순위: 기본 Samantha, 4순위: 아무 영어 음성
+  let selectedVoice = voices.find(v => v.name.includes('Siri') && v.lang.includes('en-US')) ||
+                      voices.find(v => v.name.includes('Enhanced') && v.lang.includes('en-US')) ||
+                      voices.find(v => v.name.includes('Samantha') && v.lang.includes('en-US')) ||
+                      voices.find(v => v.lang.startsWith('en'));
+
+  if (selectedVoice) {
+    msg.voice = selectedVoice;
   }
+
+  // 속도와 피치 조절 (너무 빠르면 기계음처럼 들리므로 0.8~0.9 권장)
+  msg.rate = 0.85; 
+  msg.pitch = 1.0;
+  msg.volume = 1.0;
+
+  window.speechSynthesis.speak(msg);
 }
 
+// iOS 기기에서 음성 목록을 제대로 불러오기 위한 초기화
+window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
 document.getElementById('data-count').innerText = `${OPIC_DATA.length}개의 표현 학습 가능`;
 </script>
 </body>
