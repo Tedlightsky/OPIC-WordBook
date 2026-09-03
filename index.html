@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="바빠영 OPIc">
 <title>바빠영 OPIc 트레이너</title>
 <style>
   :root {
@@ -85,7 +84,7 @@
 <body>
 
 <header>
-  <div class="subtitle">홍대 바빠영 OPIc · 고품질 음성 버전</div>
+  <div class="subtitle">홍대 바빠영 OPIc · 구글 고품질 음성</div>
   <h1>단어 & 문장 무한반복</h1>
 </header>
 
@@ -93,11 +92,11 @@
   <div class="mode-grid">
     <button class="mode-btn" onclick="startQuiz('word')">
       <div class="mode-icon">📖</div>
-      <div class="mode-info"><b>단어/숙어 매칭</b><span>원어민 발음으로 뜻 찾기</span></div>
+      <div class="mode-info"><b>단어/숙어 매칭</b><span>구글 원어민 음성으로 학습</span></div>
     </button>
     <button class="mode-btn" onclick="startQuiz('sentence')">
       <div class="mode-icon">✍️</div>
-      <div class="mode-info"><b>문장 빈칸 채우기</b><span>문장 전체 흐름 익히기</span></div>
+      <div class="mode-info"><b>문장 빈칸 채우기</b><span>문장 전체 억양 익히기</span></div>
     </button>
     <button class="mode-btn" onclick="startQuiz('speaking')">
       <div class="mode-icon">🗣️</div>
@@ -148,9 +147,12 @@
   <div id="glossary-list" style="padding: 20px;"></div>
 </div>
 
+<!-- 오디오 객체 고정 -->
+<audio id="google-tts" style="display:none;"></audio>
+
 <script>
 /** ---------------------------------------------------------
- * DATA (이미지 분석 결과 통합 데이터)
+ * DATA (사용자 이미지 기반 OPIc 데이터)
  * --------------------------------------------------------- */
 const OPIC_DATA = [
   { w: "ask you for a favor", k: "부탁 하나 해도 될까?", ex: "Hey, can I ___?" },
@@ -161,7 +163,7 @@ const OPIC_DATA = [
   { w: "lower the price", k: "가격을 깎다", ex: "Can you ___ a little?" },
   { w: "throw in", k: "덤으로 주다", ex: "Can you maybe ___ a scarf?" },
   { w: "won't be able to come", k: "갈 수 없을 것 같다", ex: "I ___ to work today." },
-  { w: "make it in", k: "출근하다/도도착하다", ex: "Do you think you'll be able to ___ tomorrow?" },
+  { w: "make it in", k: "출근하다/도착하다", ex: "Do you think you'll be able to ___ tomorrow?" },
   { w: "keep me updated", k: "계속 상황을 알려주다", ex: "Just ___ on how things go." },
   { w: "middle ground", k: "타협점", ex: "How about we find some ___?" },
   { w: "give it a go", k: "한번 시도해보다", ex: "That's a good idea. Let's ___." },
@@ -193,18 +195,25 @@ const OPIC_DATA = [
 let session = { qs: [], idx: 0, score: 0, mode: '' };
 
 /** ---------------------------------------------------------
- * CORE LOGIC
+ * GOOGLE TTS ENGINE
  * --------------------------------------------------------- */
-
-// 소리 재생 함수 (구글 고품질 엔진 사용)
 function speak(text) {
   if (!text) return;
-  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
-  const audio = new Audio(url);
-  audio.play().catch(e => console.log("재생 실패: ", e));
+  // 빈칸 기호 제거
+  const cleanText = text.replace(/___/g, "blank").trim();
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(cleanText)}&tl=en&client=tw-ob`;
+  
+  const audio = document.getElementById('google-tts');
+  audio.src = url;
+  audio.play().catch(e => {
+    console.log("아이폰은 첫 실행 시 사용자 클릭이 필요합니다.");
+  });
 }
 
 function startQuiz(mode) {
+  // 아이폰 소리 잠금 해제를 위한 빈 소리 재생
+  speak(""); 
+  
   let list = [...OPIC_DATA].sort(() => Math.random() - 0.5);
   session.qs = list.slice(0, 10);
   session.idx = 0;
@@ -233,7 +242,8 @@ function renderQuestion() {
     qSub.innerText = "이 표현의 뜻은 무엇일까요?";
     qMain.innerText = q.w;
     generateOptions(q.k, 'k');
-    speak(q.w);
+    // 단어 모드에서는 문제 나올 때 바로 읽기
+    setTimeout(() => speak(q.w), 100);
   } else if (session.mode === 'sentence') {
     qSub.innerText = "빈칸에 들어갈 알맞은 표현은?";
     qMain.innerText = q.ex.replace('___', ' ( ? ) ');
@@ -288,7 +298,7 @@ function revealAnswer(isManual) {
   document.getElementById('action-bar').classList.remove('hidden');
   if (isManual) document.getElementById('options').innerHTML = '';
   
-  // 정답 시 문장 전체 재생
+  // 정답 확인 시 문장 전체 재생
   speak(q.ex.replace('___', q.w));
   document.getElementById('tts-sentence').onclick = () => speak(q.ex.replace('___', q.w));
 }
