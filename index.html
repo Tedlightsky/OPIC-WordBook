@@ -20,7 +20,7 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
     background-color: var(--bg-gray);
     color: var(--ink);
     margin: 0; padding: 0;
@@ -28,344 +28,243 @@
     user-select: none;
   }
 
-  header {
-    padding: 60px 20px 20px;
-    background: var(--paper);
-    border-bottom: 0.5px solid #d1d1d6;
-  }
-
-  h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
-  .subtitle { color: var(--ink-soft); font-size: 15px; margin-top: 5px; }
+  header { padding: 60px 20px 20px; background: var(--paper); border-bottom: 0.5px solid #d1d1d6; }
+  h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
+  .subtitle { color: var(--ink-soft); font-size: 14px; margin-top: 5px; }
 
   main { padding: 20px; padding-bottom: 100px; }
-
   .mode-grid { display: grid; gap: 15px; }
   .mode-btn {
-    background: var(--card); border-radius: 14px; padding: 20px;
+    background: var(--card); border-radius: 16px; padding: 20px;
     display: flex; align-items: center; border: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05); cursor: pointer;
-    text-align: left; transition: transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); cursor: pointer; text-align: left;
   }
-  .mode-btn:active { transform: scale(0.97); }
   .mode-icon { font-size: 24px; margin-right: 15px; background: var(--bg-gray); padding: 10px; border-radius: 12px; }
-  .mode-info b { display: block; font-size: 18px; margin-bottom: 2px; }
+  .mode-info b { display: block; font-size: 17px; }
   .mode-info span { font-size: 13px; color: var(--ink-soft); }
 
-  #quiz-screen, #result-screen, #glossary-screen {
+  #quiz-screen, #glossary-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-gray); z-index: 100; overflow-y: auto; display: none;
   }
 
-  .top-nav {
-    padding: 50px 20px 10px; display: flex; align-items: center; justify-content: space-between;
-    background: var(--bg-gray); position: sticky; top: 0; z-index: 10;
-  }
+  .top-nav { padding: 50px 20px 10px; display: flex; align-items: center; justify-content: space-between; }
   .back-btn { background: none; border: none; color: var(--accent); font-size: 17px; font-weight: 600; }
-
-  .progress-container { width: 100%; height: 6px; background: #e5e5ea; border-radius: 3px; margin: 0 20px; box-sizing: border-box; }
-  .progress-bar { height: 100%; background: var(--accent); border-radius: 3px; width: 0%; transition: width 0.3s; }
+  .progress-bar { width: 100%; height: 6px; background: #e5e5ea; border-radius: 3px; margin: 0 20px; position: relative; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; width: 0%; transition: width 0.3s; }
 
   .question-card {
     background: var(--card); margin: 20px; padding: 30px 20px; border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;
   }
-  .q-label { font-size: 12px; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
-  .q-text { font-size: 22px; font-weight: 700; line-height: 1.4; margin-bottom: 15px; word-break: keep-all; }
-  .q-sub { font-size: 15px; color: var(--ink-soft); }
-
+  .q-text { font-size: 24px; font-weight: 700; line-height: 1.4; margin-bottom: 15px; word-break: keep-all; }
+  
   .option-list { padding: 0 20px; display: grid; gap: 10px; }
   .option {
-    background: var(--card); border: 2px solid transparent; border-radius: 12px;
-    padding: 16px; font-size: 16px; font-weight: 500; text-align: left;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer;
+    background: var(--card); border: 2.5px solid transparent; border-radius: 14px;
+    padding: 18px; font-size: 16px; font-weight: 600; text-align: left;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
   .option.correct { border-color: var(--green); background: #eafaf1; color: var(--green); }
   .option.wrong { border-color: var(--red); background: #fef1f0; color: var(--red); }
 
-  .explanation { margin: 20px; padding: 20px; background: #fff; border-radius: 15px; display: none; border: 0.5px solid #d1d1d6; }
-
+  .explanation { margin: 20px; padding: 20px; background: #fff; border-radius: 16px; display: none; border: 1px solid #eee; }
+  
   .bottom-bar {
     position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px;
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
     background: rgba(255,255,255,0.9); backdrop-filter: blur(15px);
-    display: flex; gap: 10px; box-sizing: border-box; border-top: 0.5px solid #d1d1d6;
+    display: flex; gap: 10px; border-top: 0.5px solid #d1d1d6;
   }
-  .next-btn {
-    flex: 1; background: var(--accent); color: #fff; border: none;
-    border-radius: 12px; padding: 16px; font-size: 17px; font-weight: 600;
-  }
-
-  .tts-btn {
-    background: #f2f2f7; border: none; width: 50px; height: 50px;
-    border-radius: 25px; margin-top: 15px; font-size: 20px;
-  }
-
+  .next-btn { flex: 1; background: var(--accent); color: #fff; border: none; border-radius: 14px; padding: 18px; font-size: 17px; font-weight: 700; }
+  
+  .tts-btn { background: #f2f2f7; border: none; width: 50px; height: 50px; border-radius: 25px; font-size: 22px; cursor: pointer; margin-top: 10px; }
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<header id="main-header">
-  <div class="subtitle">홍대 바빠영 OPIc/회화 통합 트레이너</div>
-  <h1>오늘의 학습</h1>
-  <div class="subtitle" id="data-count">표현 불러오는 중...</div>
+<header>
+  <div class="subtitle">홍대 바빠영 OPIc · 고품질 음성 버전</div>
+  <h1>단어 & 문장 무한반복</h1>
 </header>
 
 <main id="home">
   <div class="mode-grid">
     <button class="mode-btn" onclick="startQuiz('word')">
       <div class="mode-icon">📖</div>
-      <div class="mode-info"><b>단어/숙어 매칭</b><span>영단어의 올바른 뜻 고르기</span></div>
+      <div class="mode-info"><b>단어/숙어 매칭</b><span>원어민 발음으로 뜻 찾기</span></div>
     </button>
     <button class="mode-btn" onclick="startQuiz('sentence')">
       <div class="mode-icon">✍️</div>
-      <div class="mode-info"><b>핵심 문장 빈칸</b><span>문맥에 맞는 표현 채우기</span></div>
+      <div class="mode-info"><b>문장 빈칸 채우기</b><span>문장 전체 흐름 익히기</span></div>
     </button>
     <button class="mode-btn" onclick="startQuiz('speaking')">
       <div class="mode-icon">🗣️</div>
-      <div class="mode-info"><b>한영 말하기</b><span>한글을 보고 영어로 말해보기</span></div>
+      <div class="mode-info"><b>한영 말하기 훈련</b><span>한글 보고 영어로 뱉기</span></div>
     </button>
     <button class="mode-btn" onclick="showGlossary()">
       <div class="mode-icon">📚</div>
-      <div class="mode-info"><b>전체 단어장</b><span>학습한 모든 표현 리스트 보기</span></div>
+      <div class="mode-info"><b>전체 단어장</b><span>모든 표현 리스트 보기</span></div>
     </button>
   </div>
 </main>
 
 <div id="quiz-screen">
   <div class="top-nav">
-    <button class="back-btn" onclick="exitQuiz()">나가기</button>
-    <div id="quiz-progress-text" style="font-weight: 600; font-size: 15px;">1/10</div>
+    <button class="back-btn" onclick="location.reload()">나가기</button>
+    <div id="quiz-progress-text" style="font-weight: 600;">1/10</div>
     <div style="width: 45px;"></div>
   </div>
-  <div class="progress-container"><div class="progress-bar" id="pbar"></div></div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
   
   <div class="question-card">
-    <div class="q-label" id="q-mode-name">MODE</div>
-    <div class="q-text" id="q-main">문제를 생성 중입니다...</div>
-    <div class="q-sub" id="q-sub"></div>
-    <button class="tts-btn" id="tts-play">🔊</button>
+    <div id="q-main" class="q-text"></div>
+    <div id="q-sub" style="color:var(--accent); font-weight:700; font-size:14px; margin-bottom:15px;"></div>
+    <button class="tts-btn" id="tts-main">🔊</button>
   </div>
 
   <div class="option-list" id="options"></div>
 
   <div class="explanation" id="expl">
-    <div style="font-weight: 700; margin-bottom: 5px; color: var(--accent);">정답 해설</div>
-    <div id="expl-text" style="font-size: 15px; line-height: 1.5;"></div>
+    <div style="font-weight: 800; color: var(--accent); margin-bottom: 8px;">정답 포인트</div>
+    <div id="expl-text" style="font-size: 16px; line-height: 1.6;"></div>
+    <button class="tts-btn" id="tts-sentence" style="width: auto; padding: 0 20px; border-radius: 12px; font-size: 14px; height: 40px; margin-top: 15px;">
+      📄 문장 전체 듣기
+    </button>
   </div>
 
   <div class="bottom-bar hidden" id="action-bar">
-    <button class="next-btn" onclick="nextQuestion()">다음 문제로</button>
+    <button class="next-btn" onclick="nextQuestion()">다음 문제</button>
   </div>
 </div>
 
 <div id="glossary-screen">
   <div class="top-nav">
-    <button class="back-btn" onclick="closeGlossary()">뒤로</button>
-    <div style="font-weight: 800; font-size: 17px;">전체 단어장</div>
+    <button class="back-btn" onclick="location.reload()">뒤로</button>
+    <div style="font-weight: 800;">단어장</div>
     <div style="width: 45px;"></div>
   </div>
-  <div style="padding: 10px 20px;" id="glossary-list"></div>
+  <div id="glossary-list" style="padding: 20px;"></div>
 </div>
 
 <script>
-/**
- * ---------------------------------------------------------
- * OPIc/회화 데이터 (제공해주신 이미지 32장 전체 분석 결과)
- * ---------------------------------------------------------
- */
+/** ---------------------------------------------------------
+ * DATA (이미지 분석 결과 통합 데이터)
+ * --------------------------------------------------------- */
 const OPIC_DATA = [
-  // Asking for a favor / Moving
-  { w: "ask you for a favor", k: "부탁 하나 해도 될까?", type: "exp", ex: "Hey, can I ___?", def: "request for help" },
-  { w: "help me out", k: "나를 도와주다", type: "exp", ex: "I was wondering if you could ___.", def: "assist someone" },
-  { w: "heavy lifting", k: "무거운 것 들기", type: "word", ex: "We're going to have to do some ___.", def: "physically demanding work" },
-  { w: "What are friends for?", k: "친구 좋다는 게 뭐야?", type: "exp", ex: "No problem. ___ anyways?", def: "friends should help each other" },
-  { w: "lend me a hand", k: "도와주다", type: "exp", ex: "Could you ___ with this?", def: "give assistance" },
-
-  // Bargaining
-  { w: "pricey", k: "비싼", type: "word", ex: "That's a bit ___ for me.", def: "expensive" },
-  { w: "lower the price", k: "가격을 깎다", type: "exp", ex: "Can you ___ a little?", def: "negotiate down" },
-  { w: "throw in", k: "덤으로 주다", type: "exp", ex: "Can you maybe ___ a scarf?", def: "add something for free" },
-  { w: "final offer", k: "최종 제안", type: "exp", ex: "This is my ___. Take it or leave it.", def: "last price" },
-  { w: "on sale", k: "할인 중인", type: "exp", ex: "Is this item ___ right now?", def: "at a reduced price" },
-
-  // Calling in sick
-  { w: "won't be able to come to work", k: "출근하지 못할 것 같다", type: "exp", ex: "I ___ today because I'm sick.", def: "calling out" },
-  { w: "make it in", k: "출근하다/도착하다", type: "exp", ex: "Do you think you'll be able to ___ tomorrow?", def: "manage to attend" },
-  { w: "Considering the state I'm in", k: "내 상태를 고려하면", type: "exp", ex: "___, I doubt I can go.", def: "given my current health" },
-  { w: "keep me updated", k: "계속 상황을 알려주다", type: "exp", ex: "Just ___ on how you feel.", def: "inform about progress" },
-
-  // Disagreement / Meeting
-  { w: "profitable", k: "수익성이 있는", type: "word", ex: "It's not ___ enough to justify it.", def: "making money" },
-  { w: "middle ground", k: "타협점", type: "exp", ex: "How about we find some ___?", def: "compromise" },
-  { w: "give it a go", k: "한번 시도해보다", type: "exp", ex: "That's a good idea. Let's ___.", def: "try it out" },
-  { w: "engaged", k: "몰입한/참여하는", type: "word", ex: "It's important to keep our customers ___.", def: "involved" },
-
-  // Voice Phishing
-  { w: "unusual activity", k: "이상 징후/의심스러운 활동", type: "exp", ex: "There was some ___ in your account.", def: "suspicious behavior" },
-  { w: "look into", k: "~을 조사하다", type: "exp", ex: "We discovered records which we need to ___.", def: "investigate" },
-  { w: "gullible", k: "남을 잘 믿는/귀가 얇은", type: "word", ex: "Do you consider yourself ___?", def: "easily deceived" },
-
-  // Stolen overseas
-  { w: "belongings", k: "소지품", type: "word", ex: "My wallet and other ___ were stolen.", def: "possessions" },
-  { w: "file a report", k: "신고하다", type: "exp", ex: "We would need to ___ at the police station.", def: "official statement" },
-  { w: "suspicious", k: "의심스러운", type: "word", ex: "I didn't see anyone ___ around me.", def: "showing distrust" },
-  { w: "elaborate further", k: "더 자세히 설명하다", type: "exp", ex: "Could you please ___?", def: "provide more details" },
-
-  // Kids / Discipline
-  { w: "structure and routine", k: "체계와 규칙적인 습관", type: "exp", ex: "I want kids to have ___.", def: "organized life" },
-  { w: "rigid rules", k: "엄격한 규칙", type: "exp", ex: "Discipline can be taught without ___.", def: "inflexible" },
-  { w: "adapt", k: "적응하다", type: "word", ex: "They also need to learn to ___.", def: "adjust to conditions" },
-
-  // Restaurant
-  { w: "regular at", k: "~의 단곡손님", type: "exp", ex: "I have this shop that I'm a ___.", def: "frequent customer" },
-  { w: "second to none", k: "누구에게도 뒤지지 않는(최고인)", type: "exp", ex: "The quality of their sushi is ___.", def: "the best" },
-  { w: "every penny will be worth it", k: "한 푼도 아깝지 않을 거야", type: "exp", ex: "I guarantee that ___.", def: "value for money" },
-
-  // Expenses
-  { w: "rent and utilities", k: "월세와 공과금", type: "exp", ex: "I pay for ___ every month.", def: "living costs" },
-  { w: "reduce your spending", k: "지출을 줄이다", type: "exp", ex: "How do you try to ___?", def: "cut costs" },
-  { w: "unless I really have to", k: "정말 그래야만 하는 게 아니면", type: "exp", ex: "I don't go out ___.", def: "except in necessity" },
-
-  // Movies
-  { w: "came out", k: "출시되다/개봉하다", type: "exp", ex: "I watched it right when it ___.", def: "released" },
-  { w: "lavish lifestyle", k: "호화로운 생활", type: "exp", ex: "They were deceiving them to live a ___.", def: "luxurious" },
-  { w: "fell apart", k: "무너지다/결딴나다", type: "exp", ex: "In the end, everything ___.", def: "collapsed" },
-
-  // Eating healthy
-  { w: "prioritize", k: "우선순위에 두다", type: "word", ex: "We should all ___ eating healthy.", def: "treat as important" },
-  { w: "contemplating", k: "심사숙고하다/고민하다", type: "word", ex: "I'm always ___ what to buy.", def: "thinking deeply" },
-  { w: "typical diet", k: "평소 식단", type: "exp", ex: "What does your ___ look like?", def: "usual food" },
-
-  // Traveling alone
-  { w: "got the hang of it", k: "요령을 터득하다/익숙해지다", type: "exp", ex: "It was hard at first, but I ___.", def: "learned how" },
-  { w: "best part about", k: "~의 가장 좋은 점", type: "exp", ex: "The ___ traveling alone was freedom.", def: "greatest advantage" },
-  { w: "refreshing experience", k: "신선한 경험", type: "exp", ex: "It was an extremely ___.", def: "invigorating" },
-
-  // Burnout
-  { w: "hit by a truck", k: "몸이 천근만근인(매우 피곤한)", type: "exp", ex: "Why do you look like you've been ___?", def: "exhausted" },
-  { w: "proper break in ages", k: "오랫동안 제대로 된 휴식", type: "exp", ex: "I don't think I've had a ___.", def: "long-awaited rest" },
-  { w: "burn myself out", k: "번아웃 되다/자신을 소진시키다", type: "exp", ex: "At this rate, I'm going to ___.", def: "overwork to collapse" },
-
-  // Saving & Spending
-  { w: "save up in order to", k: "~하기 위해 저축하다", type: "exp", ex: "I try to ___ prepare for the future.", def: "store money" },
-  { w: "find myself in trouble", k: "곤경에 처하다", type: "exp", ex: "Without money, I might ___.", def: "get into a bad situation" },
-
-  // Childhood Dream
-  { w: "fulfilled your dream", k: "꿈을 이루다", type: "exp", ex: "Did you ___?", def: "achieved a goal" },
-  { w: "satisfied with where I am", k: "현재 내 위치에 만족하는", type: "exp", ex: "I'm very ___ right now.", def: "happy with current life" },
-
-  // Ripped off
-  { w: "insane", k: "말도 안 되는/미친", type: "word", ex: "The prices are ___ these days!", def: "crazy" },
-  { w: "ripped off", k: "바가지 쓰다", type: "exp", ex: "Have you ever been ___?", def: "overcharged significantly" },
-  { w: "totally get what you're saying", k: "네 말이 무슨 뜻인지 완전히 이해해", type: "exp", ex: "I ___.", def: "completely agree/understand" },
-
-  // Best city / Seoul
-  { w: "Not to mention", k: "~은 말할 것도 없고", type: "exp", ex: "___, Seoul has high quality education.", def: "furthermore" },
-  { w: "out of your mind", k: "제정신이 아닌", type: "exp", ex: "You are ___! It's too expensive.", def: "crazy" },
-  { w: "understand where you're coming from", k: "네 입장이 이해가 가", type: "exp", ex: "I ___, but Seoul is great.", def: "empathize with perspective" },
-
-  // Body care
-  { w: "on a regular basis", k: "정기적으로", type: "exp", ex: "I go on walks ___.", def: "routinely" },
-  { w: "intermittent fasting", k: "간헐적 단식", type: "word", ex: "I do ___ to stay in shape.", def: "eating at specific intervals" },
-
-  // Lotto
-  { w: "hit the lotto", k: "로또에 당첨되다", type: "exp", ex: "What would you do if you ___?", def: "win the lottery" },
-  { w: "wouldn't tell a single soul", k: "단 한 명에게도 말하지 않다", type: "exp", ex: "I ___ if I won.", def: "keep a complete secret" },
-
-  // Friends
-  { w: "rarely see", k: "거의 보지 못하다", type: "exp", ex: "I ___ my childhood friends now.", def: "seldom meet" },
-  { w: "push each other", k: "서로를 채찍질하다/격려하다", type: "exp", ex: "We ___ to do better.", def: "motivate mutually" },
-  { w: "beg to differ", k: "생각이 다르다(완곡하게)", type: "exp", ex: "I ___ but I understand your point.", def: "politely disagree" },
-
-  // Culture shock
-  { w: "got used to it", k: "그것에 익숙해지다", type: "exp", ex: "I thought it was odd, but then I ___.", def: "became accustomed" },
-
-  // Social Media
-  { w: "made me miserable", k: "나를 비참하게 만들었다", type: "exp", ex: "Comparing myself to others ___.", def: "caused unhappiness" },
-  { w: "felt inferior", k: "열등감을 느꼈다", type: "exp", ex: "I ___ compared to them.", def: "felt less worthy" },
-
-  // Marriage / Parents
-  { w: "more advantages than disadvantages", k: "단점보다 장점이 많은", type: "exp", ex: "I think there are ___.", def: "pros outweigh cons" },
-  { w: "own space and time", k: "자신만의 공간과 시간", type: "exp", ex: "If they give us our ___, I'd love it.", def: "privacy" },
-
-  // Money
-  { w: "spent all my income", k: "수입을 다 써버리다", type: "exp", ex: "I ___ and didn't have any money.", def: "used all earnings" },
-  { w: "bugging me about it", k: "그것으로 나를 귀찮게 하다", type: "exp", ex: "He kept ___ every day.", def: "annoying/pestering" }
+  { w: "ask you for a favor", k: "부탁 하나 해도 될까?", ex: "Hey, can I ___?" },
+  { w: "help me out", k: "나를 도와주다", ex: "I was wondering if you could ___." },
+  { w: "heavy lifting", k: "무거운 것 들기", ex: "We're going to have to do some ___." },
+  { w: "What are friends for?", k: "친구 좋다는 게 뭐야?", ex: "No problem. ___ anyways?" },
+  { w: "pricey", k: "비싼", ex: "That's a bit ___ for me." },
+  { w: "lower the price", k: "가격을 깎다", ex: "Can you ___ a little?" },
+  { w: "throw in", k: "덤으로 주다", ex: "Can you maybe ___ a scarf?" },
+  { w: "won't be able to come", k: "갈 수 없을 것 같다", ex: "I ___ to work today." },
+  { w: "make it in", k: "출근하다/도도착하다", ex: "Do you think you'll be able to ___ tomorrow?" },
+  { w: "keep me updated", k: "계속 상황을 알려주다", ex: "Just ___ on how things go." },
+  { w: "middle ground", k: "타협점", ex: "How about we find some ___?" },
+  { w: "give it a go", k: "한번 시도해보다", ex: "That's a good idea. Let's ___." },
+  { w: "unusual activity", k: "이상 징후", ex: "There was some ___ in your account." },
+  { w: "look into", k: "~을 조사하다", ex: "We discovered records which we need to ___." },
+  { w: "belongings", k: "소지품", ex: "My wallet and other ___ were stolen." },
+  { w: "suspicious", k: "의심스러운", ex: "I didn't see anyone ___ around me." },
+  { w: "structure and routine", k: "체계와 규칙적인 습관", ex: "I want kids to have ___." },
+  { w: "rigid rules", k: "엄격한 규칙", ex: "Discipline can be taught without ___." },
+  { w: "regular at", k: "~의 단골손님", ex: "I have this shop that I'm a ___." },
+  { w: "second to none", k: "최고인/누구에게도 뒤지지 않는", ex: "The quality of their sushi is ___." },
+  { w: "rent and utilities", k: "월세와 공과금", ex: "I pay for ___ every month." },
+  { w: "unless I really have to", k: "정말 그래야만 하는 게 아니면", ex: "I don't go out ___." },
+  { w: "lavish lifestyle", k: "호화로운 생활", ex: "They were deceiving them to live a ___." },
+  { w: "prioritize", k: "우선순위에 두다", ex: "We should all ___ eating healthy." },
+  { w: "got the hang of it", k: "요령을 터득하다", ex: "It was hard at first, but I ___." },
+  { w: "hit by a truck", k: "몸이 천근만근인", ex: "Why do you look like you've been ___?" },
+  { w: "burn myself out", k: "번아웃 되다", ex: "At this rate, I'm going to ___." },
+  { w: "find myself in trouble", k: "곤경에 처하다", ex: "Without money, I might ___." },
+  { w: "out of your mind", k: "제정신이 아닌", ex: "You are ___! It's too expensive." },
+  { w: "totally get what you're saying", k: "네 말을 완전히 이해해", ex: "I ___." },
+  { w: "intermittent fasting", k: "간헐적 단식", ex: "I do ___ to stay in shape." },
+  { w: "wouldn't tell a single soul", k: "단 한 명에게도 말하지 않다", ex: "I ___ if I won the lotto." },
+  { w: "beg to differ", k: "생각이 다르다", ex: "I ___ but I understand your point." },
+  { w: "made me miserable", k: "나를 비참하게 만들었다", ex: "Comparing myself to others ___." },
+  { w: "own space and time", k: "자신만의 공간과 시간", ex: "If they give us our ___, I'd love it." }
 ];
 
-let currentSession = { questions: [], currentIndex: 0, score: 0, mode: '' };
+let session = { qs: [], idx: 0, score: 0, mode: '' };
+
+/** ---------------------------------------------------------
+ * CORE LOGIC
+ * --------------------------------------------------------- */
+
+// 소리 재생 함수 (구글 고품질 엔진 사용)
+function speak(text) {
+  if (!text) return;
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
+  const audio = new Audio(url);
+  audio.play().catch(e => console.log("재생 실패: ", e));
+}
 
 function startQuiz(mode) {
-  let list = [...OPIC_DATA];
-  list.sort(() => Math.random() - 0.5);
-  currentSession.questions = list.slice(0, 10);
-  currentSession.currentIndex = 0;
-  currentSession.score = 0;
-  currentSession.mode = mode;
+  let list = [...OPIC_DATA].sort(() => Math.random() - 0.5);
+  session.qs = list.slice(0, 10);
+  session.idx = 0;
+  session.score = 0;
+  session.mode = mode;
   document.getElementById('quiz-screen').style.display = 'block';
   renderQuestion();
 }
 
 function renderQuestion() {
-  const q = currentSession.questions[currentSession.currentIndex];
-  const idx = currentSession.currentIndex;
-  const total = currentSession.questions.length;
+  const q = session.qs[session.idx];
+  const idx = session.idx;
+  const total = session.qs.length;
 
   document.getElementById('quiz-progress-text').innerText = `${idx + 1}/${total}`;
-  document.getElementById('pbar').style.width = `${((idx + 1) / total) * 100}%`;
+  document.getElementById('pfill').style.width = `${((idx + 1) / total) * 100}%`;
   document.getElementById('action-bar').classList.add('hidden');
   document.getElementById('expl').style.display = 'none';
 
   const qMain = document.getElementById('q-main');
   const qSub = document.getElementById('q-sub');
   const optionsDiv = document.getElementById('options');
-  const modeLabel = document.getElementById('q-mode-name');
   optionsDiv.innerHTML = '';
 
-  if (currentSession.mode === 'word') {
-    modeLabel.innerText = "단어/숙어 맞추기";
+  if (session.mode === 'word') {
+    qSub.innerText = "이 표현의 뜻은 무엇일까요?";
     qMain.innerText = q.w;
-    qSub.innerText = "이 표현의 올바른 뜻은?";
     generateOptions(q.k, 'k');
-  } else if (currentSession.mode === 'sentence') {
-    modeLabel.innerText = "문장 완성하기";
-    qMain.innerText = q.ex;
+    speak(q.w);
+  } else if (session.mode === 'sentence') {
     qSub.innerText = "빈칸에 들어갈 알맞은 표현은?";
+    qMain.innerText = q.ex.replace('___', ' ( ? ) ');
     generateOptions(q.w, 'w');
-  } else if (currentSession.mode === 'speaking') {
-    modeLabel.innerText = "한영 변환 (말하기 훈련)";
+  } else if (session.mode === 'speaking') {
+    qSub.innerText = "영어로 말해보세요 (입으로 뱉기!)";
     qMain.innerText = q.k;
-    qSub.innerText = "영어로 어떻게 말할까요? (입으로 뱉어보세요)";
-    
     const btn = document.createElement('button');
     btn.className = 'option';
     btn.style.textAlign = 'center';
-    btn.innerText = "정답 확인 및 발음 듣기";
+    btn.innerText = "정답 확인 & 발음 듣기";
     btn.onclick = () => revealAnswer(true);
     optionsDiv.appendChild(btn);
   }
 
-  document.getElementById('tts-play').onclick = () => speak(q.w);
+  document.getElementById('tts-main').onclick = () => speak(session.mode === 'word' ? q.w : q.ex.replace('___', q.w));
 }
 
 function generateOptions(correctAnswer, field) {
   const options = [correctAnswer];
-  const others = OPIC_DATA
-    .filter(item => item[field] !== correctAnswer)
-    .map(item => item[field]);
-  
+  const others = OPIC_DATA.filter(i => i[field] !== correctAnswer).map(i => i[field]);
   others.sort(() => Math.random() - 0.5);
   options.push(...others.slice(0, 3));
   options.sort(() => Math.random() - 0.5);
 
-  const optionsDiv = document.getElementById('options');
   options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'option';
     btn.innerText = opt;
     btn.onclick = () => checkAnswer(opt === correctAnswer, btn);
-    optionsDiv.appendChild(btn);
+    document.getElementById('options').appendChild(btn);
   });
 }
 
@@ -374,88 +273,49 @@ function checkAnswer(isCorrect, btn) {
   options.forEach(b => b.disabled = true);
   if (isCorrect) {
     btn.classList.add('correct');
-    currentSession.score++;
+    session.score++;
   } else {
     btn.classList.add('wrong');
   }
-  revealAnswer(isCorrect);
+  revealAnswer();
 }
 
 function revealAnswer(isManual) {
-  const q = currentSession.questions[currentSession.currentIndex];
+  const q = session.qs[session.idx];
   const expl = document.getElementById('expl');
-  const explText = document.getElementById('expl-text');
   expl.style.display = 'block';
-  explText.innerHTML = `<strong>${q.w}</strong><br><span style="color:#666">${q.k}</span><br><br><small style="color:var(--accent)">예문: ${q.ex.replace('___', '<u>'+q.w+'</u>')}</small>`;
+  document.getElementById('expl-text').innerHTML = `<b>${q.w}</b> : ${q.k}<br><i style="color:#666; font-size:14px;">${q.ex.replace('___', '<u>' + q.w + '</u>')}</i>`;
   document.getElementById('action-bar').classList.remove('hidden');
   if (isManual) document.getElementById('options').innerHTML = '';
-  speak(q.w);
+  
+  // 정답 시 문장 전체 재생
+  speak(q.ex.replace('___', q.w));
+  document.getElementById('tts-sentence').onclick = () => speak(q.ex.replace('___', q.w));
 }
 
 function nextQuestion() {
-  currentSession.currentIndex++;
-  if (currentSession.currentIndex < currentSession.questions.length) {
-    renderQuestion();
-  } else {
-    alert(`학습 완료!\n점수: ${currentSession.score}/${currentSession.questions.length}`);
-    exitQuiz();
+  session.idx++;
+  if (session.idx < session.qs.length) renderQuestion();
+  else {
+    alert(`학습 완료! 점수: ${session.score}/${session.qs.length}`);
+    location.reload();
   }
 }
 
-function exitQuiz() { document.getElementById('quiz-screen').style.display = 'none'; }
-
 function showGlossary() {
   const listDiv = document.getElementById('glossary-list');
-  listDiv.innerHTML = OPIC_DATA.map(item => `
-    <div style="background:#fff; padding:15px; border-radius:12px; margin-bottom:10px; box-shadow:0 2px 5px rgba(0,0,0,0.05); border:0.5px solid #d1d1d6">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="font-weight:800; color:var(--accent); font-size:17px;">${item.w}</div>
-        <button onclick="speak('${item.w}')" style="background:none; border:none; font-size:18px;">🔊</button>
+  listDiv.innerHTML = OPIC_DATA.map(i => `
+    <div style="background:#fff; padding:15px; border-radius:12px; margin-bottom:10px; border:1px solid #ddd;">
+      <div style="display:flex; justify-content:space-between;">
+        <b style="color:var(--accent); font-size:18px;">${i.w}</b>
+        <button onclick="speak('${i.w}')" style="border:none; background:none; font-size:20px;">🔊</button>
       </div>
-      <div style="font-weight:600; margin-top:3px; font-size:14px;">${item.k}</div>
-      <div style="color:var(--ink-soft); font-size:13px; margin-top:8px; font-style:italic; line-height:1.4;">${item.ex.replace('___', '_____')}</div>
+      <div style="margin:5px 0;">${i.k}</div>
+      <div style="font-size:13px; color:#8e8e93; font-style:italic;">${i.ex.replace('___', i.w)}</div>
     </div>
   `).join('');
   document.getElementById('glossary-screen').style.display = 'block';
 }
-
-function closeGlossary() { document.getElementById('glossary-screen').style.display = 'none'; }
-
-function speak(text) {
-  if (!('speechSynthesis' in window)) return;
-  
-  // 이전 음성 중단
-  window.speechSynthesis.cancel();
-
-  const msg = new SpeechSynthesisUtterance(text);
-  
-  // 아이폰(iOS)에서 지원하는 음성 목록 가져오기
-  let voices = window.speechSynthesis.getVoices();
-  
-  // 가장 자연스러운 음성 후보군 순서대로 찾기
-  // 1순위: Siri 음성, 2순위: Samantha(Enhanced), 3순위: 기본 Samantha, 4순위: 아무 영어 음성
-  let selectedVoice = voices.find(v => v.name.includes('Siri') && v.lang.includes('en-US')) ||
-                      voices.find(v => v.name.includes('Enhanced') && v.lang.includes('en-US')) ||
-                      voices.find(v => v.name.includes('Samantha') && v.lang.includes('en-US')) ||
-                      voices.find(v => v.lang.startsWith('en'));
-
-  if (selectedVoice) {
-    msg.voice = selectedVoice;
-  }
-
-  // 속도와 피치 조절 (너무 빠르면 기계음처럼 들리므로 0.8~0.9 권장)
-  msg.rate = 0.85; 
-  msg.pitch = 1.0;
-  msg.volume = 1.0;
-
-  window.speechSynthesis.speak(msg);
-}
-
-// iOS 기기에서 음성 목록을 제대로 불러오기 위한 초기화
-window.speechSynthesis.onvoiceschanged = () => {
-  window.speechSynthesis.getVoices();
-};
-document.getElementById('data-count').innerText = `${OPIC_DATA.length}개의 표현 학습 가능`;
 </script>
 </body>
 </html>
